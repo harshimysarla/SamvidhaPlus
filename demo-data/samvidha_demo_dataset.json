@@ -1,0 +1,522 @@
+{
+  "institution": {
+    "name": "Institute of Aeronautical Engineering (Autonomous)",
+    "short_name": "IARE",
+    "portal_name": "SAMVIDHA - Smart Academic Intelligence Portal",
+    "academic_year": "2024-2025",
+    "active_regulations": ["R20", "R22"]
+  },
+  "grade_scale": [
+    { "grade": "S", "min_marks": 90, "max_marks": 100, "grade_points": 10, "description": "Outstanding" },
+    { "grade": "A+", "min_marks": 80, "max_marks": 89, "grade_points": 9, "description": "Excellent" },
+    { "grade": "A", "min_marks": 70, "max_marks": 79, "grade_points": 8, "description": "Very Good" },
+    { "grade": "B+", "min_marks": 60, "max_marks": 69, "grade_points": 7, "description": "Good" },
+    { "grade": "B", "min_marks": 50, "max_marks": 59, "grade_points": 6, "description": "Average" },
+    { "grade": "C", "min_marks": 40, "max_marks": 49, "grade_points": 5, "description": "Pass" },
+    { "grade": "F", "min_marks": 0, "max_marks": 39, "grade_points": 0, "description": "Fail" },
+    { "grade": "AB", "min_marks": -1, "max_marks": -1, "grade_points": 0, "description": "Absent" }
+  ],
+  "departments": [
+    { "code": "CSE", "name": "Computer Science and Engineering", "hod": "Dr. K. Srinivas Rao" },
+    { "code": "AIML", "name": "Artificial Intelligence & Machine Learning", "hod": "Dr. M. Lakshmi" },
+    { "code": "IT", "name": "Information Technology", "hod": "Dr. V. Sudhakar" },
+    { "code": "ECE", "name": "Electronics & Communication Engineering", "hod": "Dr. P. Ashok Kumar" }
+  ],
+  "users": [
+    {
+      "username": "21951A0501",
+      "email": "student.cse@iare.ac.in",
+      "role": "student",
+      "name": "K. Venkat Sai",
+      "department": "CSE",
+      "password_hash": "$argon2id$v=19$m=65536,t=3,p=4$vU0B40GjG1P1816U89O91Q$4zG8U9jQ5w18wL3/o0UoIe1E7wM6Jp3Uq0m2v4w5k1Y",
+      "raw_password_hint": "DemoPass@123"
+    },
+    {
+      "username": "22951A6601",
+      "email": "student.aiml@iare.ac.in",
+      "role": "student",
+      "name": "A. Sneha Reddy",
+      "department": "AIML",
+      "password_hash": "$argon2id$v=19$m=65536,t=3,p=4$vU0B40GjG1P1816U89O91Q$4zG8U9jQ5w18wL3/o0UoIe1E7wM6Jp3Uq0m2v4w5k1Y",
+      "raw_password_hint": "DemoPass@123"
+    },
+    {
+      "username": "22951A0542",
+      "email": "student.cse2@iare.ac.in",
+      "role": "student",
+      "name": "R. Nikhil Kumar",
+      "department": "CSE",
+      "password_hash": "$argon2id$v=19$m=65536,t=3,p=4$vU0B40GjG1P1816U89O91Q$4zG8U9jQ5w18wL3/o0UoIe1E7wM6Jp3Uq0m2v4w5k1Y",
+      "raw_password_hint": "DemoPass@123"
+    },
+    {
+      "username": "FAC001",
+      "email": "dr.k.srinivas@iare.ac.in",
+      "role": "faculty",
+      "name": "Dr. K. Srinivas Rao",
+      "department": "CSE",
+      "designation": "Professor & Head",
+      "password_hash": "$argon2id$v=19$m=65536,t=3,p=4$vU0B40GjG1P1816U89O91Q$4zG8U9jQ5w18wL3/o0UoIe1E7wM6Jp3Uq0m2v4w5k1Y",
+      "raw_password_hint": "DemoPass@123"
+    },
+    {
+      "username": "FAC002",
+      "email": "m.lakshmi@iare.ac.in",
+      "role": "faculty",
+      "name": "Dr. M. Lakshmi",
+      "department": "AIML",
+      "designation": "Associate Professor",
+      "password_hash": "$argon2id$v=19$m=65536,t=3,p=4$vU0B40GjG1P1816U89O91Q$4zG8U9jQ5w18wL3/o0UoIe1E7wM6Jp3Uq0m2v4w5k1Y",
+      "raw_password_hint": "DemoPass@123"
+    },
+    {
+      "username": "ADMIN01",
+      "email": "admin.portal@iare.ac.in",
+      "role": "admin",
+      "name": "Academic Admin Office",
+      "department": "Academic Section",
+      "password_hash": "$argon2id$v=19$m=65536,t=3,p=4$vU0B40GjG1P1816U89O91Q$4zG8U9jQ5w18wL3/o0UoIe1E7wM6Jp3Uq0m2v4w5k1Y",
+      "raw_password_hint": "AdminPass@123"
+    }
+  ],
+  "students": [
+    {
+      "roll_no": "21951A0501",
+      "name": "K. Venkat Sai",
+      "gender": "Male",
+      "department": "CSE",
+      "branch": "Computer Science and Engineering",
+      "section": "A",
+      "regulation": "R20",
+      "academic_year": "2024-2025",
+      "current_semester": 7,
+      "enrollment_status": "Active Regular",
+      "admission_year": 2021,
+      "mentor_name": "Dr. K. Srinivas Rao",
+      "mentor_email": "dr.k.srinivas@iare.ac.in",
+      "blood_group": "O+ve",
+      "phone": "+91 9876543210",
+      "address": "Dundigal, Hyderabad - 500043, Telangana",
+      "parent_name": "K. Ramachandra Rao",
+      "parent_phone": "+91 9876501234",
+      "cgpa": 8.78,
+      "total_credits_earned": 136,
+      "total_credits_required": 160,
+      "overall_attendance_percentage": 88.5
+    },
+    {
+      "roll_no": "22951A6601",
+      "name": "A. Sneha Reddy",
+      "gender": "Female",
+      "department": "AIML",
+      "branch": "Artificial Intelligence & Machine Learning",
+      "section": "A",
+      "regulation": "R22",
+      "academic_year": "2024-2025",
+      "current_semester": 5,
+      "enrollment_status": "Active Regular",
+      "admission_year": 2022,
+      "mentor_name": "Dr. M. Lakshmi",
+      "mentor_email": "m.lakshmi@iare.ac.in",
+      "blood_group": "B+ve",
+      "phone": "+91 9848012345",
+      "address": "Kukatpally, Hyderabad - 500072, Telangana",
+      "parent_name": "A. Pratap Reddy",
+      "parent_phone": "+91 9848056789",
+      "cgpa": 9.15,
+      "total_credits_earned": 92,
+      "total_credits_required": 160,
+      "overall_attendance_percentage": 92.4
+    },
+    {
+      "roll_no": "22951A0542",
+      "name": "R. Nikhil Kumar",
+      "gender": "Male",
+      "department": "CSE",
+      "branch": "Computer Science and Engineering",
+      "section": "B",
+      "regulation": "R22",
+      "academic_year": "2024-2025",
+      "current_semester": 5,
+      "enrollment_status": "Active Regular",
+      "admission_year": 2022,
+      "mentor_name": "Dr. K. Srinivas Rao",
+      "mentor_email": "dr.k.srinivas@iare.ac.in",
+      "blood_group": "A+ve",
+      "phone": "+91 9988776655",
+      "address": "Miyapur, Hyderabad - 500049, Telangana",
+      "parent_name": "R. Mohan Kumar",
+      "parent_phone": "+91 9988771122",
+      "cgpa": 6.84,
+      "total_credits_earned": 86,
+      "total_credits_required": 160,
+      "overall_attendance_percentage": 69.2
+    }
+  ],
+  "semesters_history": [
+    {
+      "roll_no": "21951A0501",
+      "semesters": [
+        { "semester": 1, "academic_year": "2021-2022", "sgpa": 8.65, "cgpa": 8.65, "credits_registered": 20, "credits_earned": 20, "published": true, "status": "PASSED" },
+        { "semester": 2, "academic_year": "2021-2022", "sgpa": 8.90, "cgpa": 8.78, "credits_registered": 20, "credits_earned": 20, "published": true, "status": "PASSED" },
+        { "semester": 3, "academic_year": "2022-2023", "sgpa": 8.55, "cgpa": 8.70, "credits_registered": 21, "credits_earned": 21, "published": true, "status": "PASSED" },
+        { "semester": 4, "academic_year": "2022-2023", "sgpa": 8.80, "cgpa": 8.73, "credits_registered": 21, "credits_earned": 21, "published": true, "status": "PASSED" },
+        { "semester": 5, "academic_year": "2023-2024", "sgpa": 9.10, "cgpa": 8.80, "credits_registered": 22, "credits_earned": 22, "published": true, "status": "PASSED" },
+        { "semester": 6, "academic_year": "2023-2024", "sgpa": 8.70, "cgpa": 8.78, "credits_registered": 22, "credits_earned": 22, "published": true, "status": "PASSED" },
+        { "semester": 7, "academic_year": "2024-2025", "sgpa": null, "cgpa": 8.78, "credits_registered": 20, "credits_earned": 0, "published": false, "status": "IN_PROGRESS" }
+      ]
+    },
+    {
+      "roll_no": "22951A6601",
+      "semesters": [
+        { "semester": 1, "academic_year": "2022-2023", "sgpa": 9.05, "cgpa": 9.05, "credits_registered": 20, "credits_earned": 20, "published": true, "status": "PASSED" },
+        { "semester": 2, "academic_year": "2022-2023", "sgpa": 9.20, "cgpa": 9.13, "credits_registered": 20, "credits_earned": 20, "published": true, "status": "PASSED" },
+        { "semester": 3, "academic_year": "2023-2024", "sgpa": 9.15, "cgpa": 9.13, "credits_registered": 21, "credits_earned": 21, "published": true, "status": "PASSED" },
+        { "semester": 4, "academic_year": "2023-2024", "sgpa": 9.25, "cgpa": 9.16, "credits_registered": 21, "credits_earned": 21, "published": true, "status": "PASSED" },
+        { "semester": 5, "academic_year": "2024-2025", "sgpa": null, "cgpa": 9.15, "credits_registered": 22, "credits_earned": 0, "published": false, "status": "IN_PROGRESS" }
+      ]
+    },
+    {
+      "roll_no": "22951A0542",
+      "semesters": [
+        { "semester": 1, "academic_year": "2022-2023", "sgpa": 7.10, "cgpa": 7.10, "credits_registered": 20, "credits_earned": 20, "published": true, "status": "PASSED" },
+        { "semester": 2, "academic_year": "2022-2023", "sgpa": 6.90, "cgpa": 7.00, "credits_registered": 20, "credits_earned": 20, "published": true, "status": "PASSED" },
+        { "semester": 3, "academic_year": "2023-2024", "sgpa": 6.75, "cgpa": 6.91, "credits_registered": 21, "credits_earned": 18, "published": true, "status": "BACKLOG_CLEARED" },
+        { "semester": 4, "academic_year": "2023-2024", "sgpa": 6.65, "cgpa": 6.84, "credits_registered": 21, "credits_earned": 21, "published": true, "status": "PASSED" },
+        { "semester": 5, "academic_year": "2024-2025", "sgpa": null, "cgpa": 6.84, "credits_registered": 22, "credits_earned": 0, "published": false, "status": "IN_PROGRESS" }
+      ]
+    }
+  ],
+  "current_courses_detail": [
+    {
+      "roll_no": "21951A0501",
+      "semester": 7,
+      "courses": [
+        {
+          "course_code": "ACSC31",
+          "course_name": "Cloud Computing and Virtualization",
+          "category": "Core",
+          "type": "Theory",
+          "credits": 3,
+          "cie1": 9.5,
+          "aat1_1": 5.0,
+          "aat1_2": 4.5,
+          "cie2": 9.0,
+          "aat2_1": 4.5,
+          "aat2_2": 5.0,
+          "internal_total": 37.5,
+          "expected_grade": "S",
+          "grade_point": 10,
+          "classes_conducted": 42,
+          "classes_attended": 39,
+          "attendance_pct": 92.8,
+          "faculty_name": "Dr. K. Srinivas Rao"
+        },
+        {
+          "course_code": "AITC24",
+          "course_name": "Cryptography and Network Security",
+          "category": "Core",
+          "type": "Theory",
+          "credits": 3,
+          "cie1": 8.0,
+          "aat1_1": 4.5,
+          "aat1_2": 4.0,
+          "cie2": 8.5,
+          "aat2_1": 4.0,
+          "aat2_2": 4.5,
+          "internal_total": 33.5,
+          "expected_grade": "A+",
+          "grade_point": 9,
+          "classes_conducted": 40,
+          "classes_attended": 35,
+          "attendance_pct": 87.5,
+          "faculty_name": "Dr. V. Sudhakar"
+        },
+        {
+          "course_code": "ACSE14",
+          "course_name": "Full Stack Web Development",
+          "category": "Professional Elective",
+          "type": "Theory",
+          "credits": 3,
+          "cie1": 10.0,
+          "aat1_1": 5.0,
+          "aat1_2": 5.0,
+          "cie2": 9.5,
+          "aat2_1": 5.0,
+          "aat2_2": 5.0,
+          "internal_total": 39.5,
+          "expected_grade": "S",
+          "grade_point": 10,
+          "classes_conducted": 38,
+          "classes_attended": 37,
+          "attendance_pct": 97.4,
+          "faculty_name": "Dr. M. Lakshmi"
+        },
+        {
+          "course_code": "AOEE08",
+          "course_name": "Cyber Laws and Ethics",
+          "category": "Open Elective",
+          "type": "Theory",
+          "credits": 3,
+          "cie1": 8.5,
+          "aat1_1": 4.5,
+          "aat1_2": 4.5,
+          "cie2": 8.0,
+          "aat2_1": 4.0,
+          "aat2_2": 4.5,
+          "internal_total": 33.5,
+          "expected_grade": "A+",
+          "grade_point": 9,
+          "classes_conducted": 36,
+          "classes_attended": 31,
+          "attendance_pct": 86.1,
+          "faculty_name": "Prof. S. R. Sharma"
+        },
+        {
+          "course_code": "ACSC32",
+          "course_name": "Cloud Computing and Security Laboratory",
+          "category": "Core Lab",
+          "type": "Laboratory",
+          "credits": 1.5,
+          "week_marks": [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+          "day_to_day_marks": 28.5,
+          "internal_exam_marks": 9.5,
+          "internal_total": 38.0,
+          "expected_grade": "S",
+          "grade_point": 10,
+          "classes_conducted": 14,
+          "classes_attended": 14,
+          "attendance_pct": 100.0,
+          "faculty_name": "Dr. K. Srinivas Rao"
+        },
+        {
+          "course_code": "ACSE15",
+          "course_name": "Full Stack Development Laboratory",
+          "category": "Core Lab",
+          "type": "Laboratory",
+          "credits": 1.5,
+          "week_marks": [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+          "day_to_day_marks": 29.0,
+          "internal_exam_marks": 10.0,
+          "internal_total": 39.0,
+          "expected_grade": "S",
+          "grade_point": 10,
+          "classes_conducted": 14,
+          "classes_attended": 13,
+          "attendance_pct": 92.9,
+          "faculty_name": "Dr. M. Lakshmi"
+        },
+        {
+          "course_code": "ACSP01",
+          "course_name": "Project Work (Phase-I)",
+          "category": "Project Work",
+          "type": "Project",
+          "credits": 5,
+          "cie1": 9.5,
+          "aat1_1": 5.0,
+          "aat1_2": 5.0,
+          "cie2": 9.0,
+          "aat2_1": 5.0,
+          "aat2_2": 5.0,
+          "internal_total": 38.5,
+          "expected_grade": "S",
+          "grade_point": 10,
+          "classes_conducted": 12,
+          "classes_attended": 11,
+          "attendance_pct": 91.7,
+          "faculty_name": "Dr. K. Srinivas Rao"
+        }
+      ]
+    },
+    {
+      "roll_no": "22951A0542",
+      "semester": 5,
+      "courses": [
+        {
+          "course_code": "ACSC21",
+          "course_name": "Design and Analysis of Algorithms",
+          "category": "Core",
+          "type": "Theory",
+          "credits": 3,
+          "cie1": 5.5,
+          "aat1_1": 3.0,
+          "aat1_2": 2.5,
+          "cie2": 6.0,
+          "aat2_1": 3.0,
+          "aat2_2": 3.0,
+          "internal_total": 23.0,
+          "expected_grade": "B",
+          "grade_point": 6,
+          "classes_conducted": 42,
+          "classes_attended": 28,
+          "attendance_pct": 66.7,
+          "faculty_name": "Dr. K. Srinivas Rao"
+        },
+        {
+          "course_code": "ACSC22",
+          "course_name": "Operating Systems Internals",
+          "category": "Core",
+          "type": "Theory",
+          "credits": 3,
+          "cie1": 6.0,
+          "aat1_1": 3.5,
+          "aat1_2": 3.0,
+          "cie2": 5.5,
+          "aat2_1": 3.0,
+          "aat2_2": 3.5,
+          "internal_total": 24.5,
+          "expected_grade": "B",
+          "grade_point": 6,
+          "classes_conducted": 40,
+          "classes_attended": 27,
+          "attendance_pct": 67.5,
+          "faculty_name": "Dr. V. Sudhakar"
+        },
+        {
+          "course_code": "ACSC23",
+          "course_name": "Database Management Systems",
+          "category": "Core",
+          "type": "Theory",
+          "credits": 3,
+          "cie1": 7.0,
+          "aat1_1": 4.0,
+          "aat1_2": 3.5,
+          "cie2": 7.5,
+          "aat2_1": 4.0,
+          "aat2_2": 3.5,
+          "internal_total": 29.5,
+          "expected_grade": "B+",
+          "grade_point": 7,
+          "classes_conducted": 44,
+          "classes_attended": 32,
+          "attendance_pct": 72.7,
+          "faculty_name": "Dr. M. Lakshmi"
+        },
+        {
+          "course_code": "ACSC24",
+          "course_name": "Algorithms Laboratory",
+          "category": "Core Lab",
+          "type": "Laboratory",
+          "credits": 1.5,
+          "week_marks": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+          "day_to_day_marks": 20.0,
+          "internal_exam_marks": 6.5,
+          "internal_total": 26.5,
+          "expected_grade": "B",
+          "grade_point": 6,
+          "classes_conducted": 14,
+          "classes_attended": 10,
+          "attendance_pct": 71.4,
+          "faculty_name": "Dr. K. Srinivas Rao"
+        }
+      ]
+    }
+  ],
+  "pending_courses_data": [
+    {
+      "roll_no": "21951A0501",
+      "categories": [
+        { "category": "Foundation", "required": 8, "registered": 8, "pending": 0, "status": "Completed" },
+        { "category": "Core", "required": 16, "registered": 15, "pending": 1, "status": "In Progress" },
+        { "category": "Professional Elective", "required": 6, "registered": 4, "pending": 2, "status": "In Progress" },
+        { "category": "Open Elective", "required": 3, "registered": 2, "pending": 1, "status": "In Progress" },
+        { "category": "Project Work", "required": 2, "registered": 1, "pending": 1, "status": "In Progress" },
+        { "category": "Audit", "required": 2, "registered": 2, "pending": 0, "status": "Completed" },
+        { "category": "Value Added", "required": 2, "registered": 2, "pending": 0, "status": "Completed" },
+        { "category": "Field Project / Internship", "required": 2, "registered": 1, "pending": 1, "status": "In Progress" },
+        { "category": "DIP Courses", "required": 1, "registered": 1, "pending": 0, "status": "Completed" }
+      ]
+    }
+  ],
+  "timetable_entries": [
+    {
+      "department": "CSE",
+      "semester": 7,
+      "section": "A",
+      "schedule": [
+        { "day": "Monday", "start_time": "09:30", "end_time": "10:30", "course_code": "ACSC31", "course_name": "Cloud Computing", "faculty": "Dr. K. Srinivas Rao", "room": "Block-IV 401" },
+        { "day": "Monday", "start_time": "10:30", "end_time": "11:30", "course_code": "AITC24", "course_name": "Cryptography & NetSec", "faculty": "Dr. V. Sudhakar", "room": "Block-IV 401" },
+        { "day": "Monday", "start_time": "11:45", "end_time": "12:45", "course_code": "ACSE14", "course_name": "Full Stack Web Dev", "faculty": "Dr. M. Lakshmi", "room": "Block-IV 401" },
+        { "day": "Monday", "start_time": "01:30", "end_time": "03:30", "course_code": "ACSC32", "course_name": "Cloud Computing Lab", "faculty": "Dr. K. Srinivas Rao", "room": "Lab-6 (Dell)" },
+        { "day": "Tuesday", "start_time": "09:30", "end_time": "10:30", "course_code": "AOEE08", "course_name": "Cyber Laws & Ethics", "faculty": "Prof. S. R. Sharma", "room": "Block-IV 401" },
+        { "day": "Tuesday", "start_time": "10:30", "end_time": "11:30", "course_code": "ACSC31", "course_name": "Cloud Computing", "faculty": "Dr. K. Srinivas Rao", "room": "Block-IV 401" },
+        { "day": "Tuesday", "start_time": "11:45", "end_time": "12:45", "course_code": "AITC24", "course_name": "Cryptography & NetSec", "faculty": "Dr. V. Sudhakar", "room": "Block-IV 401" },
+        { "day": "Wednesday", "start_time": "09:30", "end_time": "11:30", "course_code": "ACSE15", "course_name": "Full Stack Lab", "faculty": "Dr. M. Lakshmi", "room": "Lab-3" },
+        { "day": "Wednesday", "start_time": "11:45", "end_time": "12:45", "course_code": "ACSE14", "course_name": "Full Stack Web Dev", "faculty": "Dr. M. Lakshmi", "room": "Block-IV 401" },
+        { "day": "Thursday", "start_time": "09:30", "end_time": "10:30", "course_code": "ACSC31", "course_name": "Cloud Computing", "faculty": "Dr. K. Srinivas Rao", "room": "Block-IV 401" },
+        { "day": "Thursday", "start_time": "10:30", "end_time": "11:30", "course_code": "AOEE08", "course_name": "Cyber Laws & Ethics", "faculty": "Prof. S. R. Sharma", "room": "Block-IV 401" },
+        { "day": "Thursday", "start_time": "01:30", "end_time": "03:30", "course_code": "ACSP01", "course_name": "Project Work Review", "faculty": "Dr. K. Srinivas Rao", "room": "Seminar Hall-1" },
+        { "day": "Friday", "start_time": "09:30", "end_time": "10:30", "course_code": "AITC24", "course_name": "Cryptography & NetSec", "faculty": "Dr. V. Sudhakar", "room": "Block-IV 401" },
+        { "day": "Friday", "start_time": "10:30", "end_time": "11:30", "course_code": "ACSE14", "course_name": "Full Stack Web Dev", "faculty": "Dr. M. Lakshmi", "room": "Block-IV 401" }
+      ]
+    }
+  ],
+  "assignments": [
+    {
+      "id": "ASG-001",
+      "course_code": "ACSC31",
+      "course_name": "Cloud Computing and Virtualization",
+      "title": "AWS Cloud Architecture & Terraform Deployment",
+      "description": "Design a high-availability multi-tier web application architecture using AWS VPC, EC2 Auto Scaling, RDS Multi-AZ and write Terraform provisioning scripts.",
+      "due_date": "2026-10-15T23:59:59Z",
+      "max_marks": 10,
+      "faculty_name": "Dr. K. Srinivas Rao",
+      "submissions": [
+        { "roll_no": "21951A0501", "submitted_at": "2026-10-02T16:30:00Z", "status": "Submitted", "score": 9.5, "feedback": "Excellent VPC configuration and clear IaC scripts." },
+        { "roll_no": "22951A0542", "submitted_at": null, "status": "Pending", "score": null, "feedback": null }
+      ]
+    },
+    {
+      "id": "ASG-002",
+      "course_code": "ACSE14",
+      "course_name": "Full Stack Web Development",
+      "title": "React and FastAPI Microservice Implementation",
+      "description": "Implement authentication using JWT, role-based middleware, and responsive frontend dashboard with Tailwind CSS and TanStack Query.",
+      "due_date": "2026-10-18T23:59:59Z",
+      "max_marks": 10,
+      "faculty_name": "Dr. M. Lakshmi",
+      "submissions": [
+        { "roll_no": "21951A0501", "submitted_at": "2026-10-03T11:20:00Z", "status": "Submitted", "score": 10.0, "feedback": "Outstanding UI quality and clean state management." }
+      ]
+    }
+  ],
+  "announcements": [
+    {
+      "id": "ANN-001",
+      "title": "Continuous Internal Evaluation (CIE-II) Notification",
+      "category": "Examinations",
+      "scope": "Institution-wide",
+      "date": "2026-09-28",
+      "content": "All B.Tech VII and V Semester students are hereby informed that CIE-II examinations will commence from 24th October 2026 as per the academic calendar. Detailed timetable will be published shortly.",
+      "author": "Controller of Examinations"
+    },
+    {
+      "id": "ANN-002",
+      "title": "Mandatory 75% Attendance Compliance for Semester End Examinations",
+      "category": "Academic Regulation",
+      "scope": "Department",
+      "department": "CSE",
+      "date": "2026-09-30",
+      "content": "Students falling below 75% aggregate attendance are advised to meet their respective mentors immediately. Condonation will strictly follow university medical guidelines up to 65%.",
+      "author": "Head of Department, CSE"
+    },
+    {
+      "id": "ANN-003",
+      "title": "Campus Placement Drive - Major IT & AI Corporates",
+      "category": "Placements",
+      "scope": "Institution-wide",
+      "date": "2026-10-01",
+      "content": "Registrations open for Tier-1 Tech placement rounds starting next month. Eligible students with CGPA >= 7.5 and no active backlogs must update their academic portfolios.",
+      "author": "Placement & Training Cell"
+    }
+  ],
+  "calendar_events": [
+    { "id": "CAL-01", "title": "CIE-I Examinations", "date": "2026-08-25", "end_date": "2026-08-30", "type": "exam" },
+    { "id": "CAL-02", "title": "Mid-Term Technical Symposium (Consortium 2026)", "date": "2026-09-15", "end_date": "2026-09-16", "type": "event" },
+    { "id": "CAL-03", "title": "Dussehra Vacation", "date": "2026-10-08", "end_date": "2026-10-12", "type": "holiday" },
+    { "id": "CAL-04", "title": "CIE-II Examinations", "date": "2026-10-24", "end_date": "2026-10-31", "type": "exam" },
+    { "id": "CAL-05", "title": "Semester End Practical Examinations", "date": "2026-11-05", "end_date": "2026-11-12", "type": "exam" },
+    { "id": "CAL-06", "title": "Semester End Theory Examinations", "date": "2026-11-15", "end_date": "2026-11-30", "type": "exam" }
+  ]
+}

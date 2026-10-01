@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: saip_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: saip_user
+      POSTGRES_PASSWORD: saip_secure_password_2026
+      POSTGRES_DB: saip_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U saip_user -d saip_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    container_name: saip_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://saip_user:saip_secure_password_2026@postgres:5432/saip_db
+      - SECRET_KEY=smart-academic-intelligence-portal-prod-secret-key-change-me
+      - ACTIVE_DATA_PROVIDER=Demo Data
+      - FRONTEND_ORIGIN=http://localhost:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile.frontend
+    container_name: saip_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
