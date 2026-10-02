@@ -219,6 +219,11 @@ class SGPAEstimationResponse(BaseModel):
     methodology: str
     limitations: str
     disclaimer: str
+    model_version: str = "v1.2.0-bayesian-reg"
+    prediction_horizon: str = "Semester End Examination (SEE) 2024-2025"
+    model_metrics: Optional[Dict[str, float]] = None
+    feature_importance: Optional[Dict[str, float]] = None
+    last_calibrated_date: Optional[str] = None
 
 class CGPAScenarioRequest(BaseModel):
     hypothetical_sgpa_next: float
@@ -392,3 +397,102 @@ class IntegrationStatusResponse(BaseModel):
     sync_status: str
     last_synced_at: Optional[datetime] = None
     system_message: str
+
+# --- Personalized Guidance Schemas ---
+class RecommendationResponse(BaseModel):
+    id: str
+    category: str  # REVISION, ATTENDANCE, TIME_ALLOCATION, GOAL_SETTING, FACULTY_CONSULT
+    title: str
+    observation: str
+    why_it_matters: str
+    supporting_data: str
+    recommended_action: str
+    suggested_timeframe: str
+    priority: str  # High, Medium, Low
+    status: str    # Active, Completed, Dismissed
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class RecommendationStatusUpdate(BaseModel):
+    status: str  # "Completed" or "Dismissed" or "Active"
+
+# --- Smart Study Planner Schemas ---
+class StudyTaskCreate(BaseModel):
+    title: str
+    course_code: Optional[str] = None
+    scheduled_date: str # YYYY-MM-DD
+    allocated_hours: float = 1.5
+    priority: str = "Medium"
+
+class StudyTaskUpdate(BaseModel):
+    title: Optional[str] = None
+    scheduled_date: Optional[str] = None
+    allocated_hours: Optional[float] = None
+    priority: Optional[str] = None
+    is_completed: Optional[bool] = None
+
+class StudyTaskResponse(BaseModel):
+    id: int
+    title: str
+    course_code: Optional[str] = None
+    scheduled_date: str
+    allocated_hours: float
+    is_completed: bool
+    priority: str
+    rescheduled_count: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class StudyPlannerSummary(BaseModel):
+    total_tasks: int
+    completed_tasks: int
+    completion_rate_pct: float
+    study_streak_days: int
+    total_allocated_hours: float
+    weekly_breakdown: List[Dict[str, Any]]
+    suggested_allocations: List[Dict[str, Any]]
+
+# --- Faculty Intervention Schemas ---
+class FacultyInterventionCreate(BaseModel):
+    student_roll_no: str
+    course_code: str
+    action_type: str  # "Remedial Assignment", "Attendance Counseling", "Concept Review"
+    notes: str
+    follow_up_date: Optional[str] = None
+
+class FacultyInterventionResponse(BaseModel):
+    id: int
+    student_roll_no: str
+    student_name: str
+    course_code: str
+    course_name: str
+    action_type: str
+    notes: str
+    follow_up_date: Optional[str] = None
+    status: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+# --- Student Preference Schemas ---
+class StudentPreferenceResponse(BaseModel):
+    email_alerts_enabled: bool
+    attendance_warning_threshold: float
+    mentoring_visibility_consent: bool
+    ai_guidance_enabled: bool
+    dark_mode: bool
+
+    class Config:
+        from_attributes = True
+
+class StudentPreferenceUpdate(BaseModel):
+    email_alerts_enabled: Optional[bool] = None
+    attendance_warning_threshold: Optional[float] = None
+    mentoring_visibility_consent: Optional[bool] = None
+    ai_guidance_enabled: Optional[bool] = None
+    dark_mode: Optional[bool] = None

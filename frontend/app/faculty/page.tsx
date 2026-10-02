@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "@/components/navigation/Sidebar";
 import TopNavbar from "@/components/navigation/TopNavbar";
 import { api, getStoredUser } from "@/lib/api";
-import { FacultyProfile, FacultyCourseOverview, FacultyClassAnalytics } from "@/lib/types";
+import { FacultyProfile, FacultyCourseOverview, FacultyClassAnalytics, FacultyIntervention } from "@/lib/types";
 import { getAttendanceBadge, getGradeBadge } from "@/lib/utils";
 import {
   Users,
@@ -18,7 +18,11 @@ import {
   AlertTriangle,
   ArrowRight,
   TrendingDown,
-  Layers
+  Layers,
+  Plus,
+  Clock,
+  X,
+  FileText
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -40,6 +44,16 @@ export default function FacultyDashboardPage() {
   const [selectedCourse, setSelectedCourse] = useState<string>("ACSC31");
   const [analytics, setAnalytics] = useState<FacultyClassAnalytics | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Faculty Intervention States
+  const [interventions, setInterventions] = useState<FacultyIntervention[]>([]);
+  const [isInterventionModalOpen, setIsInterventionModalOpen] = useState(false);
+  const [modalRollNo, setModalRollNo] = useState("");
+  const [modalCourseCode, setModalCourseCode] = useState("ACSC31");
+  const [modalActionType, setModalActionType] = useState("Attendance Counseling & Remedial Plan");
+  const [modalNotes, setModalNotes] = useState("");
+  const [modalDate, setModalDate] = useState(() => new Date(Date.now() + 7 * 86400000).toISOString().split("T")[0]);
+  const [isSavingIntervention, setIsSavingIntervention] = useState(false);
 
   useEffect(() => {
     const user = getStoredUser();
@@ -64,10 +78,50 @@ export default function FacultyDashboardPage() {
       setSelectedCourse(activeCode);
       const a = await api.getFacultyClassAnalytics(facId, activeCode);
       setAnalytics(a);
+
+      const intervList = await api.getFacultyInterventions().catch(() => []);
+      setInterventions(intervList);
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleOpenInterventionModal = (rollNo?: string) => {
+    if (rollNo) setModalRollNo(rollNo);
+    setModalCourseCode(selectedCourse);
+    setIsInterventionModalOpen(true);
+  };
+
+  const handleSaveIntervention = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!modalRollNo.trim() || !modalNotes.trim()) return;
+    setIsSavingIntervention(true);
+    try {
+      const created = await api.createFacultyIntervention({
+        student_roll_no: modalRollNo.trim(),
+        course_code: modalCourseCode,
+        action_type: modalActionType,
+        notes: modalNotes.trim(),
+        follow_up_date: modalDate
+      });
+      setInterventions((prev) => [created, ...prev]);
+      setIsInterventionModalOpen(false);
+      setModalNotes("");
+    } catch (err: any) {
+      alert(err.message || "Failed to record intervention");
+    } finally {
+      setIsSavingIntervention(false);
+    }
+  };
+
+  const handleUpdateInterventionStatus = async (id: number, newStatus: string) => {
+    try {
+      const updated = await api.updateFacultyIntervention(id, { status: newStatus });
+      setInterventions((prev) => prev.map((item) => (item.id === id ? updated : item)));
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -308,10 +362,19 @@ export default function FacultyDashboardPage() {
                           </td>
                           <td className="py-3 px-3 text-center">
                             {st.status === "AT_RISK" ? (
-                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60 px-2 py-0.5 rounded border border-rose-300">
-                                <AlertTriangle className="w-3 h-3" />
-                                <span>Support Needed</span>
-                              </span>
+                              <div className="flex flex-col items-center gap-1">
+                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60 px-2 py-0.5 rounded border border-rose-300">
+                                  <AlertTriangle className="w-3 h-3" />
+                                  <span>Support Needed</span>
+                                </span>
+                                <button
+                                  onClick={() => handleOpenInterventionModal(st.roll_no)}
+                                  className="px-2 py-0.5 rounded bg-indigo-50 hover:bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 font-bold text-[10px] flex items-center gap-1 transition-all"
+                                >
+                                  <Plus className="w-3 h-3" />
+                                  <span>Log Support</span>
+                                </button>
+                              </div>
                             ) : (
                               <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
                                 <CheckCircle2 className="w-3 h-3" />
@@ -325,10 +388,204 @@ export default function FacultyDashboardPage() {
                   </table>
                 </div>
               </div>
+
+              {/* Faculty Mentoring & Intervention Log */}
+              <div className="space-y-3 pt-6 border-t border-slate-200 dark:border-slate-800">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                      <FileText className="w-4 h-4 text-indigo-600" />
+                      <span>Recorded Academic Interventions ({interventions.length})</span>
+                    </h4>
+                    <p className="text-[11px] text-slate-500">
+                      Tracking student counseling, remedial assignment assignments, and tutorial follow-ups.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handleOpenInterventionModal()}
+                    className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-indigo-600/20"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Log New Support Action</span>
+                  </button>
+                </div>
+
+                {interventions.length === 0 ? (
+                  <div className="text-center py-6 text-xs text-slate-400 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700/60">
+                    No active student support interventions logged yet for this academic term.
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {interventions.map((it) => (
+                      <div
+                        key={it.id}
+                        className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/70 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-1.5">
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono font-bold text-xs text-indigo-600 dark:text-indigo-400">
+                                {it.student_roll_no}
+                              </span>
+                              <span className="text-xs font-bold text-slate-900 dark:text-white">
+                                {it.student_name}
+                              </span>
+                            </div>
+                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                              {it.course_code}
+                            </span>
+                          </div>
+
+                          <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
+                            {it.action_type}
+                          </div>
+
+                          <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                            {it.notes}
+                          </p>
+                        </div>
+
+                        <div className="mt-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[11px]">
+                          <span className="text-[10px] text-slate-500 flex items-center gap-1">
+                            <Clock className="w-3 h-3 text-slate-400" />
+                            {it.follow_up_date ? `Follow-up: ${it.follow_up_date}` : "Ongoing"}
+                          </span>
+
+                          <div className="flex items-center gap-1.5">
+                            <select
+                              value={it.status}
+                              onChange={(e) => handleUpdateInterventionStatus(it.id, e.target.value)}
+                              className="text-[10px] font-bold px-2 py-0.5 rounded bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-slate-200 cursor-pointer"
+                            >
+                              <option value="Initiated">Initiated</option>
+                              <option value="Follow-up Pending">Follow-up Pending</option>
+                              <option value="Resolved">Resolved</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </main>
       </div>
+
+      {/* Intervention Recording Modal */}
+      {isInterventionModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full border border-slate-200 dark:border-slate-800 p-5 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <FileText className="w-4 h-4 text-indigo-600" />
+                <span>Log Student Support & Mentoring</span>
+              </h3>
+              <button
+                onClick={() => setIsInterventionModalOpen(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveIntervention} className="space-y-3.5">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Student Roll Number
+                </label>
+                <input
+                  type="text"
+                  value={modalRollNo}
+                  onChange={(e) => setModalRollNo(e.target.value)}
+                  placeholder="e.g. 22951A0542"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-mono"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Course
+                </label>
+                <select
+                  value={modalCourseCode}
+                  onChange={(e) => setModalCourseCode(e.target.value)}
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs"
+                >
+                  {courses.map((c) => (
+                    <option key={c.course_code} value={c.course_code}>
+                      {c.course_code} - {c.course_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Intervention Action Type
+                </label>
+                <select
+                  value={modalActionType}
+                  onChange={(e) => setModalActionType(e.target.value)}
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs"
+                >
+                  <option value="Attendance Counseling & Remedial Plan">Attendance Counseling & Remedial Plan</option>
+                  <option value="Remedial Assignment & Problem Set">Remedial Assignment & Problem Set</option>
+                  <option value="Concept Review & Tutorial Session">Concept Review & Tutorial Session</option>
+                  <option value="Lab Record Verification Check">Lab Record Verification Check</option>
+                  <option value="Office Hours Mentoring Meeting">Office Hours Mentoring Meeting</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Faculty Counseling Notes & Action Plan
+                </label>
+                <textarea
+                  rows={3}
+                  value={modalNotes}
+                  onChange={(e) => setModalNotes(e.target.value)}
+                  placeholder="Record observations discussed, remedial assignment allocated, or commitments agreed..."
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Follow-up Review Date
+                </label>
+                <input
+                  type="date"
+                  value={modalDate}
+                  onChange={(e) => setModalDate(e.target.value)}
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setIsInterventionModalOpen(false)}
+                  className="px-3 py-2 rounded-lg text-xs text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingIntervention}
+                  className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>{isSavingIntervention ? "Saving..." : "Record Support Action"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

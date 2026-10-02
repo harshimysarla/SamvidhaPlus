@@ -5,7 +5,8 @@ from app.core.database import engine, Base
 from app.api import (
     auth, students, faculty, academic_records,
     attendance, analytics, predictions, calendar_timetable,
-    assignments, announcements, notifications, reports, imports, admin
+    assignments, announcements, notifications, reports, imports, admin,
+    guidance, study_planner, preferences
 )
 
 # Initialize database schema tables
@@ -14,7 +15,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
-    description="Smart Academic Intelligence Portal (SAIP) - Samvidha-inspired college academic portal with performance analytics and predictive intelligence."
+    description="SamvidhaPlus – AI-Powered Academic Performance Analysis, Prediction and Guidance System for IARE."
 )
 
 # CORS Middleware
@@ -35,6 +36,9 @@ app.include_router(academic_records.router, prefix=api_v1_prefix)
 app.include_router(attendance.router, prefix=api_v1_prefix)
 app.include_router(analytics.router, prefix=api_v1_prefix)
 app.include_router(predictions.router, prefix=api_v1_prefix)
+app.include_router(guidance.router, prefix=api_v1_prefix)
+app.include_router(study_planner.router, prefix=api_v1_prefix)
+app.include_router(preferences.router, prefix=api_v1_prefix)
 app.include_router(calendar_timetable.router, prefix=api_v1_prefix)
 app.include_router(assignments.router, prefix=api_v1_prefix)
 app.include_router(announcements.router, prefix=api_v1_prefix)
@@ -55,4 +59,4 @@ def root():
 
 @app.get("/health")
 def health_check():
-    return {"status": "healthy", "service": "SAIP Backend API"}
+    return {"status": "healthy", "service": "SamvidhaPlus Backend API"}

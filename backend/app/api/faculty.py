@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 from typing import List, Dict, Any
 from app.api.deps import get_db, get_current_user, require_role
 from app.repositories.academic_repo import AcademicRepository
-from app.models.models import User, Faculty, Course, TheoryAssessment, LaboratoryAssessment, Student
-from app.schemas.schemas import FacultyResponse, FacultyCourseOverview, FacultyClassAnalyticsResponse
+from app.models.models import User, Faculty, Course, TheoryAssessment, LaboratoryAssessment, Student, FacultyIntervention
+from app.schemas.schemas import FacultyResponse, FacultyCourseOverview, FacultyClassAnalyticsResponse, FacultyInterventionCreate, FacultyInterventionResponse
 
 router = APIRouter(prefix="/faculty", tags=["Faculty"])
 
@@ -131,3 +131,118 @@ def get_class_analytics(
         attendance_distribution=att_dist,
         students=students_list
     )
+
+@router.get("/interventions", response_model=List[FacultyInterventionResponse])
+def get_faculty_interventions(
+    current_user: User = Depends(require_role(["faculty", "admin"])),
+    db: Session = Depends(get_db)
+):
+    faculty = db.query(Faculty).filter(Faculty.user_id == current_user.id).first()
+    if not faculty and current_user.role == "admin":
+        interventions = db.query(FacultyIntervention).order_by(FacultyIntervention.created_at.desc()).all()
+    elif faculty:
+        interventions = db.query(FacultyIntervention).filter(
+            FacultyIntervention.faculty_id == faculty.id
+        ).order_by(FacultyIntervention.created_at.desc()).all()
+    else:
+        raise HTTPException(status_code=404, detail="Faculty profile not found")
+
+    res = []
+    for it in interventions:
+        st_name = it.student.name if hasattr(it.student, "name") and it.student.name else (it.student.user.full_name if it.student and it.student.user else "Student")
+        res.append(FacultyInterventionResponse(
+            id=it.id,
+            student_roll_no=it.student.roll_no if it.student else "UNKNOWN",
+            student_name=st_name,
+            course_code=it.course.code if it.course else "COURSE",
+            course_name=it.course.name if it.course else "Course Name",
+            action_type=it.action_type,
+            notes=it.notes,
+            follow_up_date=it.follow_up_date,
+            status=it.status,
+            created_at=it.created_at
+        ))
+    return res
+
+@router.post("/interventions", response_model=FacultyInterventionResponse, status_code=status.HTTP_201_CREATED)
+def create_faculty_intervention(
+    item_in: FacultyInterventionCreate,
+    current_user: User = Depends(require_role(["faculty", "admin"])),
+    db: Session = Depends(get_db)
+):
+    faculty = db.query(Faculty).filter(Faculty.user_id == current_user.id).first()
+    if not faculty and current_user.role != "admin":
+        raise HTTPException(status_code=404, detail="Faculty profile not found")
+
+    faculty_id = faculty.id if faculty else 1
+
+    student = db.query(Student).filter(Student.roll_no == item_in.student_roll_no).first()
+    if not student:
+        raise HTTPException(status_code=404, detail=f"Student {item_in.student_roll_no} not found")
+
+    course = db.query(Course).filter(Course.code == item_in.course_code).first()
+    if not course:
+        raise HTTPException(status_code=404, detail=f"Course {item_in.course_code} not found")
+
+    new_interv = FacultyIntervention(
+        faculty_id=faculty_id,
+        student_id=student.id,
+        course_id=course.id,
+        action_type=item_in.action_type,
+        notes=item_in.notes,
+        follow_up_date=item_in.follow_up_date,
+        status="Initiated"
+    )
+    db.add(new_interv)
+    db.commit()
+    db.refresh(new_interv)
+
+    st_name = student.name if hasattr(student, "name") and student.name else (student.user.full_name if student.user else "Student")
+    return FacultyInterventionResponse(
+        id=new_interv.id,
+        student_roll_no=student.roll_no,
+        student_name=st_name,
+        course_code=course.code,
+        course_name=course.name,
+        action_type=new_interv.action_type,
+        notes=new_interv.notes,
+        follow_up_date=new_interv.follow_up_date,
+        status=new_interv.status,
+        created_at=new_interv.created_at
+    )
+
+@router.patch("/interventions/{intervention_id}", response_model=FacultyInterventionResponse)
+def update_faculty_intervention(
+    intervention_id: int,
+    status_update: Dict[str, Any],
+    current_user: User = Depends(require_role(["faculty", "admin"])),
+    db: Session = Depends(get_db)
+):
+    interv = db.query(FacultyIntervention).filter(FacultyIntervention.id == intervention_id).first()
+    if not interv:
+        raise HTTPException(status_code=404, detail="Intervention not found")
+
+    if "status" in status_update:
+        interv.status = status_update["status"]
+    if "notes" in status_update:
+        interv.notes = status_update["notes"]
+    if "follow_up_date" in status_update:
+        interv.follow_up_date = status_update["follow_up_date"]
+
+    db.commit()
+    db.refresh(interv)
+
+    st_name = interv.student.name if hasattr(interv.student, "name") and interv.student.name else (interv.student.user.full_name if interv.student and interv.student.user else "Student")
+    return FacultyInterventionResponse(
+        id=interv.id,
+        student_roll_no=interv.student.roll_no if interv.student else "UNKNOWN",
+        student_name=st_name,
+        course_code=interv.course.code if interv.course else "COURSE",
+        course_name=interv.course.name if interv.course else "Course Name",
+        action_type=interv.action_type,
+        notes=interv.notes,
+        follow_up_date=interv.follow_up_date,
+        status=interv.status,
+        created_at=interv.created_at
+    )
+

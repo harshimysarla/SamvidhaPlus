@@ -1,7 +1,7 @@
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 # Ensure backend root is on sys.path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -12,7 +12,8 @@ from app.models.models import (
     User, Department, Student, Faculty, Course, TheoryAssessment,
     LaboratoryAssessment, SemesterResult, PendingCourse, TimetableEntry,
     Assignment, AssignmentSubmission, Announcement, CalendarEvent,
-    Notification, IntegrationConfig
+    Notification, IntegrationConfig, StudyTask, AcademicRecommendation,
+    FacultyIntervention, StudentPreference
 )
 
 DEMO_DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "demo-data", "samvidha_demo_dataset.json")
@@ -377,7 +378,189 @@ def seed():
                 db.add(cfg)
         db.commit()
 
-        print("Database seeded successfully with Samvidha academic demonstration records!")
+        # 14. Student Preferences
+        print("Seeding student preferences...")
+        all_students = db.query(Student).all()
+        for s in all_students:
+            if not db.query(StudentPreference).filter(StudentPreference.student_id == s.id).first():
+                pref = StudentPreference(
+                    student_id=s.id,
+                    email_alerts_enabled=True,
+                    attendance_warning_threshold=75.0,
+                    mentoring_visibility_consent=True,
+                    ai_guidance_enabled=True,
+                    dark_mode=False
+                )
+                db.add(pref)
+        db.commit()
+
+        # 15. Actionable Academic Recommendations
+        print("Seeding academic recommendations...")
+        s1 = db.query(Student).filter(Student.roll_no == "21951A0501").first()
+        if s1:
+            recs_s1 = [
+                AcademicRecommendation(
+                    id="REC-ATT-CS603",
+                    student_id=s1.id,
+                    category="ATTENDANCE",
+                    title="Attendance Recovery Plan: Cloud Computing",
+                    observation="Current attendance in CS603 is 71.4% (25/35 attended), in the condonation danger zone (65%–75%).",
+                    why_it_matters="Attending end-semester examination requires regular attendance >= 75.0% to avoid institutional condonation penalties.",
+                    supporting_data="71.4% current attendance (25/35 sessions)",
+                    recommended_action="Attend the next 6 scheduled lecture and lab sessions consecutively without absence.",
+                    suggested_timeframe="Next 2 Weeks",
+                    priority="High",
+                    status="Active"
+                ),
+                AcademicRecommendation(
+                    id="REC-REV-CS601",
+                    student_id=s1.id,
+                    category="REVISION",
+                    title="Targeted Internal Boost: Distributed Operating Systems",
+                    observation="Cumulative internal mark stands at 27.5/40. CIE-1 score was 6.8/10.",
+                    why_it_matters="CIE marks carry 40% aggregate weight towards the final letter grade.",
+                    supporting_data="Internal Score: 27.5/40 (CIE-1: 6.8/10)",
+                    recommended_action="Focus on Lamport logical clocks and distributed deadlock detection before CIE-2 exam.",
+                    suggested_timeframe="Before CIE-II Exam",
+                    priority="Medium",
+                    status="Active"
+                ),
+                AcademicRecommendation(
+                    id="REC-TIME-01",
+                    student_id=s1.id,
+                    category="TIME_ALLOCATION",
+                    title="Study Block Allocation: Compiler Design",
+                    observation="Compiler Design (CS602) carries 4.0 autonomous credits and requires rigorous parsing algorithm practice.",
+                    why_it_matters="High-credit courses exert a disproportionate impact on semester SGPA variance.",
+                    supporting_data="Course Weight: 4.0 Credits",
+                    recommended_action="Schedule at least 4.5 dedicated study hours this week divided into 45-minute focused blocks.",
+                    suggested_timeframe="This Week",
+                    priority="Medium",
+                    status="Active"
+                ),
+                AcademicRecommendation(
+                    id="REC-GOAL-01",
+                    student_id=s1.id,
+                    category="GOAL_SETTING",
+                    title="Target CGPA Milestone: Elevate to 8.85+",
+                    observation="Current cumulative CGPA is 8.52. An SGPA of >= 8.90 this semester will advance standing to 8.85+.",
+                    why_it_matters="Crosses the threshold for institutional academic honors and tier-1 campus placement shortlists.",
+                    supporting_data="Current CGPA: 8.52 → Target CGPA: 8.85",
+                    recommended_action="Use What-If Simulator to calibrate course-level target grades and track daily study tasks.",
+                    suggested_timeframe="Semester Duration",
+                    priority="Low",
+                    status="Active"
+                )
+            ]
+            for r in recs_s1:
+                if not db.query(AcademicRecommendation).filter(AcademicRecommendation.id == r.id).first():
+                    db.add(r)
+
+        s2 = db.query(Student).filter(Student.roll_no == "21951A0502").first()
+        if s2:
+            recs_s2 = [
+                AcademicRecommendation(
+                    id="REC-ATT-A0502",
+                    student_id=s2.id,
+                    category="ATTENDANCE",
+                    title="Critical Detention Warning: Compiler Design",
+                    observation="Attendance in Compiler Design is currently 62.5% (20/32 attended), below the mandatory 65% autonomous cutoff.",
+                    why_it_matters="Under university autonomous regulations, students below 65% are detained without condonation.",
+                    supporting_data="62.5% attendance in CS602",
+                    recommended_action="Attend every upcoming class without exception. Contact faculty advisor immediately.",
+                    suggested_timeframe="Immediate (Next 48 Hours)",
+                    priority="High",
+                    status="Active"
+                )
+            ]
+            for r in recs_s2:
+                if not db.query(AcademicRecommendation).filter(AcademicRecommendation.id == r.id).first():
+                    db.add(r)
+        db.commit()
+
+        # 16. Smart Study Planner Tasks
+        print("Seeding smart study planner tasks...")
+        if s1 and db.query(StudyTask).filter(StudyTask.student_id == s1.id).count() == 0:
+            today_str = datetime.now().strftime("%Y-%m-%d")
+            tomorrow_str = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
+            day2_str = (datetime.now() + timedelta(days=2)).strftime("%Y-%m-%d")
+            day3_str = (datetime.now() + timedelta(days=3)).strftime("%Y-%m-%d")
+            day4_str = (datetime.now() + timedelta(days=4)).strftime("%Y-%m-%d")
+
+            tasks_s1 = [
+                StudyTask(
+                    student_id=s1.id,
+                    title="Revise Distributed Systems: Lamport timestamps & vector clocks",
+                    course_code="CS601",
+                    scheduled_date=today_str,
+                    allocated_hours=2.0,
+                    priority="High",
+                    is_completed=True,
+                    rescheduled_count=0
+                ),
+                StudyTask(
+                    student_id=s1.id,
+                    title="Compiler Design: Practice LR(1) and LALR parser tables",
+                    course_code="CS602",
+                    scheduled_date=tomorrow_str,
+                    allocated_hours=2.5,
+                    priority="High",
+                    is_completed=False,
+                    rescheduled_count=0
+                ),
+                StudyTask(
+                    student_id=s1.id,
+                    title="Cloud Computing Lab: Dockerize Flask microservice and write report",
+                    course_code="CS605",
+                    scheduled_date=day2_str,
+                    allocated_hours=1.5,
+                    priority="Medium",
+                    is_completed=False,
+                    rescheduled_count=0
+                ),
+                StudyTask(
+                    student_id=s1.id,
+                    title="Software Engineering AAT-2: Agile sprint backlog case study",
+                    course_code="CS604",
+                    scheduled_date=day3_str,
+                    allocated_hours=1.5,
+                    priority="Medium",
+                    is_completed=False,
+                    rescheduled_count=0
+                ),
+                StudyTask(
+                    student_id=s1.id,
+                    title="Data Structures review: B-trees and Red-Black tree rebalancing",
+                    course_code="CS601",
+                    scheduled_date=day4_str,
+                    allocated_hours=2.0,
+                    priority="Low",
+                    is_completed=False,
+                    rescheduled_count=0
+                )
+            ]
+            for t in tasks_s1:
+                db.add(t)
+            db.commit()
+
+        # 17. Faculty Interventions
+        print("Seeding faculty interventions...")
+        f1 = db.query(Faculty).filter(Faculty.faculty_id == "FAC001").first()
+        c_cs602 = db.query(Course).filter(Course.code == "CS602").first()
+        if f1 and s2 and c_cs602 and db.query(FacultyIntervention).count() == 0:
+            interv = FacultyIntervention(
+                faculty_id=f1.id,
+                student_id=s2.id,
+                course_id=c_cs602.id,
+                action_type="Attendance Counseling & Remedial Plan",
+                notes="Met student regarding 62.5% attendance in Compiler Design. Assigned remedial problem set covering LR parsing and scheduled follow-up check.",
+                follow_up_date=(datetime.now() + timedelta(days=7)).strftime("%Y-%m-%d"),
+                status="Follow-up Pending"
+            )
+            db.add(interv)
+            db.commit()
+
+        print("Database seeded successfully with SamvidhaPlus academic records!")
 
     finally:
         db.close()

@@ -6,9 +6,11 @@ ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "
 DEFAULT_DB_FILE = os.path.join(ROOT_DIR, "saip_database.db").replace("\\", "/")
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "Smart Academic Intelligence Portal (SAIP)"
-    VERSION: str = "1.0.0"
+    PROJECT_NAME: str = "SamvidhaPlus – AI-Powered Academic Intelligence Platform"
+    TAGLINE: str = "Understand Your Performance. Predict Your Progress. Shape Your Future."
+    VERSION: str = "2.0.0"
     API_V1_STR: str = "/api/v1"
+    MODEL_VERSION: str = "v1.2.0-bayesian-reg"
     
     # Security
     SECRET_KEY: str = os.getenv("SECRET_KEY", "smart-academic-intelligence-portal-dev-secret-key-super-secure-change-in-prod-2026")

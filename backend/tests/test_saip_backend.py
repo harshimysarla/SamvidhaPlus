@@ -21,7 +21,7 @@ def test_health_check():
 def test_root_endpoint():
     response = client.get("/")
     assert response.status_code == 200
-    assert "Smart Academic Intelligence Portal" in response.json()["portal"]
+    assert "SamvidhaPlus" in response.json()["portal"]
 
 # 2. Authentication Tests
 def test_login_success_student():
@@ -204,3 +204,131 @@ def test_official_api_security_enforcement():
     assert provider.is_live_integration is False
     with pytest.raises(NotImplementedError):
         provider.get_student_profile("21951A0501")
+
+# 9. SamvidhaPlus Predictive Model Metadata
+def test_sgpa_estimator_metadata_and_metrics():
+    res = SGPAEstimator.estimate(
+        published_semesters=[{"semester": 1, "sgpa": 8.5, "published": True}],
+        current_courses=[{"credits": 4.0, "internal_total": 35.0}]
+    )
+    assert res["model_version"] == "v1.2.0-bayesian-reg"
+    assert "model_metrics" in res
+    assert res["model_metrics"]["mae"] == 0.28
+    assert "feature_importance" in res
+    assert "disclaimer" in res
+    assert 0.0 <= res["estimated_sgpa_min"] <= res["estimated_sgpa_max"] <= 10.0
+
+# 10. SamvidhaPlus Actionable Guidance & Isolation
+def test_academic_guidance_and_student_isolation():
+    login_resp = client.post("/api/v1/auth/login", json={
+        "username": "21951A0501",
+        "password": "DemoPass@123"
+    })
+    token = login_resp.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # Own guidance succeeds
+    resp = client.get("/api/v1/guidance/21951A0501", headers=headers)
+    assert resp.status_code == 200
+    recs = resp.json()
+    assert len(recs) > 0
+    assert "why_it_matters" in recs[0]
+    assert "recommended_action" in recs[0]
+
+    # Cross-access is blocked
+    cross_resp = client.get("/api/v1/guidance/21951A0502", headers=headers)
+    assert cross_resp.status_code == 403
+
+    # Update recommendation status
+    rec_id = recs[0]["id"]
+    patch_resp = client.patch(f"/api/v1/guidance/21951A0501/{rec_id}/status", json={"status": "Completed"}, headers=headers)
+    assert patch_resp.status_code == 200
+    assert patch_resp.json()["status"] == "Completed"
+
+# 11. Smart Study Planner Tests
+def test_study_planner_workflow():
+    login_resp = client.post("/api/v1/auth/login", json={
+        "username": "21951A0501",
+        "password": "DemoPass@123"
+    })
+    token = login_resp.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # Get tasks
+    get_resp = client.get("/api/v1/planner/21951A0501/tasks", headers=headers)
+    assert get_resp.status_code == 200
+    initial_count = len(get_resp.json())
+
+    # Create task
+    post_resp = client.post("/api/v1/planner/21951A0501/tasks", json={
+        "title": "Prepare mock gate exam practice test",
+        "course_code": "CS601",
+        "scheduled_date": "2026-10-15",
+        "allocated_hours": 2.0,
+        "priority": "High"
+    }, headers=headers)
+    assert post_resp.status_code == 201
+    task_id = post_resp.json()["id"]
+
+    # Update task completion
+    patch_resp = client.patch(f"/api/v1/planner/21951A0501/tasks/{task_id}", json={
+        "is_completed": True
+    }, headers=headers)
+    assert patch_resp.status_code == 200
+    assert patch_resp.json()["is_completed"] is True
+
+    # Summary
+    summary_resp = client.get("/api/v1/planner/21951A0501/summary", headers=headers)
+    assert summary_resp.status_code == 200
+    s_data = summary_resp.json()
+    assert s_data["total_tasks"] == initial_count + 1
+    assert "suggested_allocations" in s_data
+    assert "weekly_breakdown" in s_data
+
+# 12. Student Preferences
+def test_student_preferences():
+    login_resp = client.post("/api/v1/auth/login", json={
+        "username": "21951A0501",
+        "password": "DemoPass@123"
+    })
+    token = login_resp.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    pref_resp = client.get("/api/v1/preferences/me", headers=headers)
+    assert pref_resp.status_code == 200
+    assert "attendance_warning_threshold" in pref_resp.json()
+
+    current_val = pref_resp.json()["attendance_warning_threshold"]
+    new_val = 82.5 if current_val != 82.5 else 75.0
+    update_resp = client.patch("/api/v1/preferences/me", json={
+        "attendance_warning_threshold": new_val
+    }, headers=headers)
+    assert update_resp.status_code == 200
+    assert update_resp.json()["attendance_warning_threshold"] == new_val
+
+# 13. Faculty Interventions Workflow
+def test_faculty_interventions():
+    # Login as faculty
+    fac_login = client.post("/api/v1/auth/login", json={
+        "username": "FAC001",
+        "password": "DemoPass@123"
+    })
+    token = fac_login.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # List interventions
+    list_resp = client.get("/api/v1/faculty/interventions", headers=headers)
+    assert list_resp.status_code == 200
+    assert isinstance(list_resp.json(), list)
+
+    # Create intervention for at-risk student 22951A0542
+    post_resp = client.post("/api/v1/faculty/interventions", json={
+        "student_roll_no": "22951A0542",
+        "course_code": "ACSC31",
+        "action_type": "Concept Review Session",
+        "notes": "Student attended counseling on Process Synchronization.",
+        "follow_up_date": "2026-10-20"
+    }, headers=headers)
+    assert post_resp.status_code == 201
+    assert post_resp.json()["student_roll_no"] == "22951A0542"
+

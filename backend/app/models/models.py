@@ -298,3 +298,69 @@ class IntegrationConfig(Base):
     sync_status = Column(String(50), default="Idle")
     last_synced_at = Column(DateTime, nullable=True)
     config_json = Column(JSON, default=dict)
+
+class StudyTask(Base):
+    __tablename__ = "study_tasks"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    title = Column(String(200), nullable=False)
+    course_code = Column(String(50), nullable=True)
+    scheduled_date = Column(String(30), nullable=False) # YYYY-MM-DD
+    allocated_hours = Column(Float, default=1.5)
+    is_completed = Column(Boolean, default=False)
+    priority = Column(String(20), default="Medium") # High, Medium, Low
+    rescheduled_count = Column(Integer, default=0)
+    created_at = Column(DateTime, default=utcnow)
+    
+    student = relationship("Student", backref="study_tasks")
+
+class AcademicRecommendation(Base):
+    __tablename__ = "academic_recommendations"
+    
+    id = Column(String(50), primary_key=True, index=True) # REC-001, etc.
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    category = Column(String(50), nullable=False) # REVISION, ATTENDANCE, TIME_ALLOCATION, GOAL_SETTING, FACULTY_CONSULT
+    title = Column(String(200), nullable=False)
+    observation = Column(Text, nullable=False)
+    why_it_matters = Column(Text, nullable=False)
+    supporting_data = Column(String(255), nullable=False)
+    recommended_action = Column(Text, nullable=False)
+    suggested_timeframe = Column(String(100), nullable=False)
+    priority = Column(String(20), default="Medium") # High, Medium, Low
+    status = Column(String(20), default="Active") # Active, Completed, Dismissed
+    created_at = Column(DateTime, default=utcnow)
+    
+    student = relationship("Student", backref="recommendations")
+
+class FacultyIntervention(Base):
+    __tablename__ = "faculty_interventions"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    faculty_id = Column(Integer, ForeignKey("faculty.id"), nullable=False)
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    course_id = Column(Integer, ForeignKey("courses.id"), nullable=False)
+    action_type = Column(String(100), nullable=False) # Remedial Assignment, Attendance Counseling, Concept Review
+    notes = Column(Text, nullable=False)
+    follow_up_date = Column(String(30), nullable=True)
+    status = Column(String(30), default="Initiated") # Initiated, Follow-up Pending, Resolved
+    created_at = Column(DateTime, default=utcnow)
+    
+    faculty = relationship("Faculty", backref="interventions")
+    student = relationship("Student", backref="faculty_interventions")
+    course = relationship("Course", backref="interventions")
+
+class StudentPreference(Base):
+    __tablename__ = "student_preferences"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("students.id"), unique=True, nullable=False)
+    email_alerts_enabled = Column(Boolean, default=True)
+    attendance_warning_threshold = Column(Float, default=75.0)
+    mentoring_visibility_consent = Column(Boolean, default=True)
+    ai_guidance_enabled = Column(Boolean, default=True)
+    dark_mode = Column(Boolean, default=False)
+    updated_at = Column(DateTime, default=utcnow, onupdate=utcnow)
+    
+    student = relationship("Student", backref="preference", uselist=False)
+

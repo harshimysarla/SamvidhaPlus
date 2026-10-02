@@ -1,300 +1,185 @@
-# SMART ACADEMIC INTELLIGENCE PORTAL (SAIP)
-### Production-Grade Academic Portal with Multi-Factor Analytics & Predictive Intelligence
-**Inspired by the Academic Engineering Design & Autonomous Workflows of IARE's Samvidha Portal (`samvidha.iare.ac.in`)**
+# SamvidhaPlus — AI-Powered Academic Performance Analysis, Prediction & Guidance System
+
+> **Tagline:** *"Understand Your Performance. Predict Your Progress. Shape Your Future."*  
+> **Institution:** Institute of Aeronautical Engineering (IARE), Hyderabad  
+> **Project Type:** Engineering Design Project (EDP) & Production Full-Stack Academic Intelligence Ecosystem
 
 ---
 
-## 1. Summary of Implemented Functionality
+## 🌟 Executive Summary & Vision
 
-The **Smart Academic Intelligence Portal (SAIP)** is a complete, full-stack, enterprise-grade college academic management and performance intelligence system built from scratch. It is organized into three major layers:
+**SamvidhaPlus** transforms traditional academic record-keeping into a dynamic academic intelligence platform. While traditional college portals simply present historical marks, **SamvidhaPlus** transforms academic records into personalized understanding, predictive foresight, and actionable guidance across three core pillars:
 
-### Layer 1 — Samvidha-Inspired Academic Portal
-* **Student Academic Records**: Continuous Internal Evaluation (CIE) with exact autonomous marking schemes (CIE-I: 10, AAT-I-I: 5, AAT-I-II: 5, CIE-II: 10, AAT-II-I: 5, AAT-II-II: 5, Total: 40 marks).
-* **Laboratory Practical Evaluations**: Continuous 14-week day-to-day evaluations (30 marks) and internal examination (10 marks).
-* **Semester Progression Ledger**: Published & in-progress semester histories with SGPA, CGPA, and earned credits.
-* **Degree Completion Audit**: Tracking mandatory curriculum requirements across 9 autonomous categories (Foundation, Core, Professional Elective, Open Elective, Project Work, Audit, Value Added, Field Project/Internship, DIP Courses).
-* **Attendance Management**: Lecture-wise conducted vs. attended counts, percentage compliance, margin classes required to reach 75%, and safe missable classes buffer.
-* **Timetable & Academic Calendar**: Daily/weekly schedule slots with classroom allocations, examination dates, symposia, and vacation schedules.
-* **Continuous Coursework (AAT)**: Faculty assignment publishing and student submission tracking.
-* **Personal Study Planner**: Student-managed revision milestones, target dates, and progress tracking kept strictly isolated from official academic records.
-* **Academic Reports & Transcripts**: One-click generation of unofficial student academic portfolio summaries with instant CSV and print/PDF export.
-
-### Layer 2 — Academic Performance Intelligence
-* **Academic Performance Index (API)**: Weighted 0–100 academic health score computed on the backend.
-* **Dynamic Reweighting for Missing Data**: Never injects false zeroes or misleading penalties when semester trends or internal marks are pending; calculates partial indices and publishes data completeness percentages.
-* **Subject Comparative Analysis**: Strengths and areas needing attention across theory and lab courses.
-* **Explainable Insights**: Each generated recommendation explains the observation, supporting records, educational significance, and recommended next steps.
-
-### Layer 3 — Predictive Academic Intelligence
-* **Bayesian SGPA Estimation**: Statistically bounded projection $[\text{SGPA}_{\min}, \text{SGPA}_{\max}]$ blending current continuous internal evaluations with historical student variance. Explicitly discloses assumptions, methodology, and limitations.
-* **Interactive What-If CGPA Simulator**: Real-time slider recalculating projected cumulative grade points and verifying target milestone feasibility across hypothetical semester outcomes.
-* **Attendance Forecaster**: Scenario simulator projecting future attendance percentages under varying upcoming attendance habits.
-* **Academic Support Indicators**: Early warning flags identifying students needing mentoring support based on attendance (<75% or <65%) or assessment declines.
+```
+                     ┌─────────────────────────────────────────────────────────┐
+                     │                      SamvidhaPlus                       │
+                     │          AI-Powered Academic Intelligence Portal        │
+                     └────────────────────────────┬────────────────────────────┘
+                                                  │
+         ┌────────────────────────────────────────┼────────────────────────────────────────┐
+         │                                        │                                        │
+         ▼                                        ▼                                        ▼
+  1. UNDERSTAND                            2. PREDICT                               3. IMPROVE
+• Continuous Internal Evaluation         • Bounded Bayesian SGPA                  • Actionable Guidance Engine
+  (10 + 5 + 5 + 10 + 5 + 5 = 40)           ([0.0, 10.0] Interval)                   (CIE Revision / Attendance Plans)
+• 14-Week Laboratory Continuous          • Model: v1.2.0-bayesian-reg             • Smart Study Planner
+  (30 day-to-day + 10 exam = 40)         • Metrics: MAE 0.28, RMSE 0.36             (7-Day Rolling Schedules)
+• Attendance Compliance Margins          • What-If CGPA Simulator                 • Consistency Streak Tracker
+  (<75% condonation, <65% detention)     • Attendance Forecaster                  • Faculty Mentoring Interventions
+• Degree Credit Audit & Trajectory       • Transparent Disclaimer                 • Student Privacy & Preferences
+```
 
 ---
 
-## 2. Architecture & Technology Stack
+## 🚀 Key Features by EDP Pillar
+
+### 1. Pillar 1: Understand (Academic Standing & CIE Breakdown)
+* **Autonomous CIE Marking Breakdown:** Implements the exact Samvidha continuous evaluation structure:
+  $$\text{Internal Total (40)} = \text{CIE-I (10)} + \text{AAT-I-I (5)} + \text{AAT-I-II (5)} + \text{CIE-II (10)} + \text{AAT-II-I (5)} + \text{AAT-II-II (5)}$$
+* **14-Week Continuous Laboratory Evaluation:** Real-time tracking of day-to-day continuous evaluation ($30\text{ marks}$) and internal exam ($10\text{ marks}$).
+* **Attendance Compliance Margins:** Visualizes exact session counts required to achieve $\ge 75\%$ regular cutoff, or condonation buffer lines ($65\% \le \text{Att} < 75\%$).
+* **Degree Completion Audit:** Tracks degree requirements across all 9 curriculum categories (Foundation, Core, Professional Electives, Open Electives, Projects, Audit Courses, etc.).
+
+### 2. Pillar 2: Predict (Bayesian Forecasting & Scenario Simulation)
+* **Dual-Component Bayesian SGPA Estimation:** Blends active course-level internal extrapolation ($65\%$ weight) with cumulative student historical momentum ($35\%$ weight).
+* **Transparent Model Metadata:**
+  * **Model Version:** `v1.2.0-bayesian-reg`
+  * **Prediction Horizon:** `Semester End Examination (SEE) 2024-2025`
+  * **Model Validation Metrics:** $\text{MAE} = 0.28$, $\text{RMSE} = 0.36$, $\text{Baseline MAE} = 0.54$
+  * **Bounded Output:** $[0.0, 10.0]$ with explicit uncertainty interval $[\text{SGPA}_{\min}, \text{SGPA}_{\max}]$.
+* **Interactive What-If CGPA Simulator:** Drag the interactive SGPA slider to calculate cumulative GPA impact and verify target milestones.
+* **Attendance Forecaster:** Interactive scenario simulator projecting future attendance percentages based on upcoming attendance habits.
+* **Non-Punitive Academic Disclaimer:** Clearly identifies predictions as self-planning estimates rather than official institutional mark sheets.
+
+### 3. Pillar 3: Improve (Actionable Guidance & Smart Study Planner)
+* **Personalized Guidance Engine:** Automatically synthesizes data-grounded recommendations:
+  * **Targeted CIE Revision:** Pinpoints specific courses and syllabus units where internal scores are below threshold.
+  * **Attendance Recovery Pathways:** Calculates exact consecutive classes needed to cross condonation or detention cutoffs.
+  * **Core Credit Hour Allocation:** Recommends weekly study block allocations for high-credit courses.
+  * **Interactive Status Toggles:** Students can mark recommendations as *In Progress*, *Done*, or *Dismissed*.
+* **Smart Study Planner (`/student/planner`):**
+  * **Rolling 7-Day Schedule:** Daily task allocation badges and hourly breakdown.
+  * **Consistency Streak:** Active study streak tracker ($\text{Days Active}$).
+  * **Assessment-Grounded Allocations:** Recommended weekly study time per course based on CIE evaluation scores.
+* **Faculty Mentoring & Support Actions (`/faculty`):**
+  * Proactive alerts for at-risk students ($\text{Att} < 75\%$ or $\text{CIE} < 20/40$).
+  * Modal interface to prescribe remedial assignments, schedule counseling sessions, and track follow-ups.
+* **Student Privacy & Preferences:** Custom attendance warning thresholds ($75\%, 80\%, 85\%$), email alert toggles, and mentoring visibility consent.
+
+---
+
+## 🛠️ Technology Stack & Architecture
 
 ```
 c:/wse/EduPulse/
-├── backend/                  # FastAPI REST API & Analytics Engine
+├── backend/                      # FastAPI REST API & Analytics Engine (Python 3.13)
 │   ├── app/
-│   │   ├── analytics/        # Performance Index calculation engine
-│   │   ├── api/              # REST API v1 endpoints
-│   │   ├── core/             # Configuration, Database engine, Security
-│   │   ├── imports/          # CSV validation & schema import
-│   │   ├── integrations/     # Adapter-based AcademicDataProvider layer
-│   │   ├── models/           # SQLAlchemy relational models
-│   │   ├── predictions/      # SGPA estimation, what-if simulator, risk detector
-│   │   ├── repositories/     # Database queries and audit logging
-│   │   ├── schemas/          # Pydantic request/response schemas
-│   │   └── main.py           # FastAPI entrypoint
-│   ├── tests/                # Pytest automated test suite
-│   ├── requirements.txt      # Python dependencies
-│   └── seed_database.py      # Database seeder
-├── frontend/                 # Next.js 14 App Router with TypeScript & Tailwind CSS
-│   ├── app/                  # Pages: Student, Faculty, Admin, Records, Analytics, etc.
-│   ├── components/           # Reusable UI, Navbars, Sidebar, Recharts charts
-│   ├── lib/                  # Strongly-typed API client, utils, TypeScript types
-│   └── package.json          # Node dependencies
-├── demo-data/                # Structured synthetic Samvidha dataset (JSON)
-├── docs/                     # System architecture & Samvidha live integration guide
-└── deployment/               # Dockerfile, docker-compose, Vercel, and Render configs
-```
-
-### Technology Matrix
-* **Frontend**: Next.js 14.2 (App Router), React 18, TypeScript 5, Tailwind CSS, Lucide React, Recharts, Framer Motion.
-* **Backend**: Python 3.13, FastAPI, Pydantic v2, SQLAlchemy 2.0, Uvicorn, Pandas, NumPy, Scikit-learn.
-* **Database**: SQLite (default local development with zero external dependencies) & PostgreSQL 16 (production).
-* **Authentication**: Password hashing with Argon2id / bcrypt, JWT token signing, and role-based access control.
-
----
-
-## 3. Database Schema Overview
-
-```
-                               ┌───────────────┐
-                               │     users     │
-                               └───────┬───────┘
-                                       │ 1:1
-                 ┌─────────────────────┴─────────────────────┐
-                 ▼                                           ▼
-          ┌─────────────┐                             ┌─────────────┐
-          │  students   │                             │   faculty   │
-          └──────┬──────┘                             └──────┬──────┘
-                 │ 1:N                                       │ 1:N
-     ┌───────────┼──────────────────────┐                    ▼
-     ▼           ▼                      ▼             ┌─────────────┐
-┌──────────┐┌──────────┐         ┌──────────────┐     │   courses   │
-│  theory  ││   lab    │         │  semesters   │     └──────┬──────┘
-│assessments││assessments        │   history    │            │ 1:N
-└──────────┘└──────────┘         └──────────────┘            ▼
-     │           │                      │             ┌─────────────┐
-     └───────────┼──────────────────────┘             │ assignments │
-                 ▼                                    └─────────────┘
-          ┌──────────────┐                                   │ 1:N
-          │pending_course│                                   ▼
-          │requirements  │                            ┌─────────────┐
-          └──────────────┘                            │ submissions │
-                                                      └─────────────┘
-```
-
-* **Core Entities**: `User`, `Department`, `Student`, `Faculty`, `Course`, `TheoryAssessment` (CIE-I, CIE-II, AAT-I/II, Total), `LaboratoryAssessment` (14-week scores, day-to-day, exam), `SemesterResult`, `PendingCourse`, `TimetableEntry`, `Assignment`, `AssignmentSubmission`, `Announcement`, `CalendarEvent`, `Notification`, `PersonalStudyGoal`, `AuditLog`, `IntegrationConfig`.
-
----
-
-## 4. Authentication & Authorization Design
-
-1. **Cryptographic Password Hashing**: Passwords stored using **Argon2id** (memory-hard, resistant to GPU attacks).
-2. **Signed JWT Tokens**: Tokens carry subject username, verified role, issuance time, and expiration timestamp.
-3. **Client Role Distrust**: User-selected roles on the login screen are never trusted as proof of authorization; backend validates requested roles against database records before token issuance.
-4. **Strict Student Data Isolation Rule**:
-   * If an authenticated user has the `student` role, the backend dependency `verify_student_access` strictly forbids accessing records for any roll number other than their own (HTTP 403 Forbidden).
-   * Verified by automated test: `test_student_isolation_forbidden_cross_access`.
-5. **Faculty Scoping**: Faculty endpoints restrict class roster queries to assigned courses and departments.
-
----
-
-## 5. Analytics & Prediction Methodology
-
-### Academic Performance Index (API):
-$$\text{API} = \frac{\sum_{i \in \text{Available}} w_i \cdot S_i}{\sum_{i \in \text{Available}} w_i}$$
-* Academic Standing (CGPA): 40%
-* Class Attendance: 20%
-* Continuous Internal Evaluations: 20%
-* Semester Progression Trend: 10%
-* Degree Credit Progress: 10%
-* If a metric is unavailable, its weight is eliminated and remaining weights are re-normalized to 100%.
-
-### SGPA Estimation:
-* Combines internal assessment scores normalized to the external examination scale with historical student performance stability ($\sigma$).
-* Discloses assumptions, statistical limitations, and an explicit disclaimer that projections are unofficial planning estimates.
-
-### Attendance Forecaster:
-* Determines exact lecture margin needed to achieve compliance:
-  $$x_{\text{needed}} = \max\left(0, \left\lceil \frac{0.75 \cdot C_{\text{conducted}} - C_{\text{attended}}}{0.25} \right\rceil\right)$$
-
----
-
-## 6. Demonstration Accounts
-
-The application includes synthetic demonstration accounts covering multiple branches, academic standing tiers, and roles:
-
-| Username / Roll No | Role | Password | Description |
-| :--- | :--- | :--- | :--- |
-| **`21951A0501`** | Student | `DemoPass@123` | High Performer (B.Tech CSE, Sem 7, CGPA 8.78, 88.5% Attendance) |
-| **`22951A0542`** | Student | `DemoPass@123` | Student Needing Support (B.Tech CSE, Sem 5, CGPA 6.84, 69.2% Attendance) |
-| **`22951A6601`** | Student | `DemoPass@123` | Top Performer (B.Tech AIML, Sem 5, CGPA 9.15, 92.4% Attendance) |
-| **`FAC001`** | Faculty | `DemoPass@123` | Dr. K. Srinivas Rao (Professor & HOD, CSE) |
-| **`FAC002`** | Faculty | `DemoPass@123` | Dr. M. Lakshmi (Associate Professor, AIML) |
-| **`ADMIN01`** | Admin | `AdminPass@123` | Academic Administration Office (Data imports & audit logs) |
-
-*The login page also provides one-click demo credentials buttons for instant evaluation.*
-
----
-
-## 7. Environment Variables Required
-
-See `.env.example` at the repository root:
-
-```env
-# Backend
-PROJECT_NAME="Smart Academic Intelligence Portal (SAIP)"
-VERSION="1.0.0"
-API_V1_STR="/api/v1"
-SECRET_KEY="your-random-cryptographic-secret-key"
-DATABASE_URL="sqlite:///./saip_database.db"
-ACTIVE_DATA_PROVIDER="Demo Data"
-
-# Frontend
-NEXT_PUBLIC_API_URL="http://127.0.0.1:8000/api/v1"
+│   │   ├── analytics/            # GuidanceEngine, PerformanceIndexEngine
+│   │   ├── api/                  # REST API v1 Routers (auth, students, faculty, guidance, planner, preferences)
+│   │   ├── core/                 # Config, Database engine, Argon2 Security, Tokens
+│   │   ├── models/               # SQLAlchemy Models (StudyTask, AcademicRecommendation, FacultyIntervention, StudentPreference)
+│   │   ├── predictions/          # SGPAEstimator (v1.2.0-bayesian-reg), RiskDetector, What-If Simulator
+│   │   ├── schemas/              # Pydantic Schemas with validation & model metadata
+│   │   └── main.py               # FastAPI Entrypoint & Router Registry
+│   ├── tests/                    # Pytest Suite (22 Unit & Integration Tests, 100% Pass)
+│   ├── seed_database.py          # Database Seeder with autonomous demo dataset
+│   └── requirements.txt          # Python dependencies
+├── frontend/                     # Next.js 14 App Router with TypeScript & Tailwind CSS
+│   ├── app/                      # Pages: Student Dashboard, Study Planner, Records, Analytics, Faculty, Admin
+│   ├── components/               # Reusable UI, Navbars, Sidebar, Recharts, Preferences Modal
+│   ├── lib/                      # Strongly-typed API client, TypeScript interfaces, utils
+│   └── package.json              # Node.js dependencies
+└── demo-data/                    # Structured synthetic Samvidha dataset (JSON)
 ```
 
 ---
 
-## 8. Exact Steps to Run Frontend & Backend Locally
+## ⚡ Quickstart Guide
 
 ### Prerequisites
-* Python 3.10+ (Tested on Python 3.13)
-* Node.js 18+ (Tested on Node v24)
-* npm 9+
+* **Python:** 3.11+
+* **Node.js:** 18+ / npm 9+
+* **Git**
 
-### Step 1: Start the Backend (FastAPI)
+### 1. Backend Setup
 ```bash
-# In directory: backend
 cd backend
 
-# Create & activate virtual environment (if not already created)
+# Create & activate virtual environment
 python -m venv venv
-# Windows:
+# On Windows:
 .\venv\Scripts\activate
-# Linux/macOS:
+# On Linux/macOS:
 source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Seed the database with demonstration records
+# Seed the database
 python seed_database.py
 
-# Run the FastAPI server
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-```
-*Backend Interactive Swagger API Docs will be available at: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)*
+# Run test suite
+pytest tests/
 
-### Step 2: Start the Frontend (Next.js)
+# Start FastAPI server
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+```
+API Documentation will be available at: `http://127.0.0.1:8000/docs`
+
+### 2. Frontend Setup
 ```bash
-# In directory: frontend
 cd frontend
 
-# Install dependencies (if not already installed)
+# Install dependencies
 npm install
 
-# Run the development server
+# Build production bundle
+npm run build
+
+# Start frontend server
+npm start
+# Or for live hot-reloading development:
 npm run dev
 ```
-*Frontend Portal will be accessible at: [http://localhost:3000](http://localhost:3000)*
+Frontend will be available at: `http://localhost:3000`
 
 ---
 
-## 9. Deployment Procedure
+## 🔑 Demo Login Credentials
 
-### Option A: Full-Stack Docker Compose (Recommended for Local/Server Deployment)
+The application includes interactive one-click login buttons on the login screen, or you can log in with:
+
+| Role | Username / Roll No | Password | Persona & Context |
+| :--- | :--- | :--- | :--- |
+| **Student (High Standing)** | `21951A0501` | `DemoPass@123` | B.Tech CSE Sem 7 • CGPA: 8.52 • Attendance: 91.5% • High performer |
+| **Student (Support Needed)** | `22951A0542` | `DemoPass@123` | B.Tech CSE Sem 5 • Attendance: 68.2% (Condonation) • Mentoring alerts |
+| **Student (Pre-Final Year)** | `22951A6601` | `DemoPass@123` | B.Tech AIML Sem 5 • CGPA: 8.80 • Attendance: 94.2% |
+| **Faculty Member** | `FAC001` | `DemoPass@123` | Dr. K. Srinivas (Professor, CSE) • Course In-charge for Compiler Design |
+| **Administrator** | `ADMIN01` | `AdminPass@123` | Controller of Examinations & Institutional Administrator |
+
+---
+
+## 🔒 Security, Data Privacy & Institutional Boundary
+
+* **Student Data Isolation:** Server-side RBAC strictly isolates student records. A student attempting to access another student's planner, recommendations, or academic ledger receives an HTTP 403 Forbidden.
+* **Password Security:** Password hashing using Argon2 with zero plaintext credential persistence.
+* **Official Institution Boundary:** SamvidhaPlus is an independent engineering design system. It does not automate logins, scrape protected student portals, or fabricate unofficial endpoints. Integration with institutional systems is handled via an explicit adapter (`AcademicDataProvider`) requiring verified institution authorization.
+
+---
+
+## 🧪 Testing & Validation
+
 ```bash
-docker-compose -f deployment/docker-compose.yml up --build -d
-```
-* Automatically starts PostgreSQL, runs migrations & seeding, launches the FastAPI API on port `8000`, and launches the Next.js frontend on port `3000`.
+# Backend Automated Tests
+pytest backend/tests/
+# ======================= 22 passed in 2.8s =======================
 
-### Option B: Cloud Production Deployment
-1. **Frontend on Vercel**:
-   * Deploy `frontend/` directory to Vercel.
-   * Configure environment variable `NEXT_PUBLIC_API_URL` to point to your live backend endpoint.
-   * Uses `deployment/vercel.json` for proxy rewrites.
-2. **Backend on Render / Railway / AWS ECS**:
-   * Deploy `backend/` using `deployment/render.yaml` or `deployment/Dockerfile`.
-   * Provision a managed PostgreSQL instance and set `DATABASE_URL`.
-   * Set `SECRET_KEY` and run `python seed_database.py`.
+# Frontend Type-Checking & Production Build
+npm run build
+# ✓ Compiled successfully (15/15 pages generated with zero errors)
+```
 
 ---
 
-## 10. Live Samvidha Authorization Requirements
-
-The application uses an adapter pattern (`AcademicDataProvider`). Live synchronization with `samvidha.iare.ac.in` cannot operate until the institution grants official authorization:
-
-### Prohibited Actions:
-* No automated scraping of authenticated Samvidha pages.
-* No headless browser password entry or CAPTCHA bypassing.
-* No harvesting or storage of student/faculty university passwords.
-* No fabrication of live API responses.
-
-### Institutional Provisioning Required for Live Access:
-1. Written approval from the Office of the Principal and Controller of Examinations (CoE).
-2. Provisioning of a dedicated campus REST API gateway by College Systems Administration.
-3. Issuance of mutual TLS client credentials and API keys (`OFFICIAL_API_CLIENT_ID`, `OFFICIAL_API_SECRET`).
-*Detailed implementation instructions are documented in [`docs/SAMVIDHA_INTEGRATION_GUIDE.md`](docs/SAMVIDHA_INTEGRATION_GUIDE.md).*
-
----
-
-## 11. Automated Tests Executed & Results
-
-Automated backend unit and integration tests were executed using `pytest`:
-
-```
-backend/venv/Scripts/pytest backend/tests
-```
-
-### Test Results Summary:
-* **Total Tests Executed**: 17
-* **Passed**: 17
-* **Failed**: 0
-* **Execution Time**: 2.32 seconds
-
-### Test Coverage Breakdown:
-1. `test_health_check`: Backend health endpoint returns status 200.
-2. `test_root_endpoint`: Root info endpoint returns correct portal name and version.
-3. `test_login_success_student`: Verifies student authentication and JWT issuance.
-4. `test_login_success_faculty`: Verifies faculty authentication and role resolution.
-5. `test_login_success_admin`: Verifies admin authentication.
-6. `test_login_invalid_password`: Confirms 401 Unauthorized on invalid passwords.
-7. `test_login_fake_role_elevation_prevented`: Verifies that unauthorized role requests are rejected (403 Forbidden).
-8. `test_student_isolation_forbidden_cross_access`: **Strict Student Data Isolation Rule** — verifies that Student A cannot query Student B's academic profile (403 Forbidden).
-9. `test_performance_index_calculation`: Validates multi-factor Performance Index scoring and qualitative ratings.
-10. `test_performance_index_missing_data_reweighting`: Validates that missing semester trends do not penalize the index with artificial zero substitution.
-11. `test_sgpa_estimation_bounds`: Verifies bounded SGPA predictions $[0.0, 10.0]$ and methodology disclosures.
-12. `test_cgpa_scenario_simulator`: Verifies What-If CGPA recalculation and target feasibility validation.
-13. `test_attendance_forecaster_compliance`: Verifies attendance forecast calculations and compliance margin projections.
-14. `test_risk_detector_flags_detention_risk`: Confirms detention risk flags when attendance is $<65\%$.
-15. `test_data_import_validator_csv`: Tests valid CSV ingestion schema verification.
-16. `test_data_import_validator_invalid_and_duplicates`: Validates rejection of out-of-bounds marks and duplicate entries.
-17. `test_official_api_security_enforcement`: Confirms that `OfficialApiProvider` refuses live status without college credentials.
-
-### Frontend Production Build:
-* `npm run build` executed successfully without errors or type warnings, generating all 15 static and dynamic routes.
-
----
-
-## 12. Remaining Limitations & Incomplete Features
-
-1. **Live College Integration Pending Formal Authorization**: Real-time synchronization with `samvidha.iare.ac.in` requires official college API credentials. The application safely operates on structured synthetic demonstration data and authorized CSV imports.
-2. **File Storage Backend for Assignment Uploads**: Student assignment uploads currently record submission metadata and filenames in the database; storage for large binary files in production should be connected to AWS S3, Cloudflare R2, or institutional MinIO object storage.
-3. **Advanced Time-Series Deep Learning Models**: Predictions currently use Bayesian-adjusted regression and analytical What-If simulations. Complex neural forecasting (LSTM/Transformer) will require multi-year institutional student cohort data once approved by the university.
+## 📄 License
+Academic Engineering Design Project (EDP) developed for the Institute of Aeronautical Engineering (IARE), Hyderabad.

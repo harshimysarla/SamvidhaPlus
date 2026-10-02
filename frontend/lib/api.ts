@@ -22,7 +22,12 @@ import {
   FacultyCourseOverview,
   FacultyClassAnalytics,
   IntegrationStatus,
-  DataImportSummary
+  DataImportSummary,
+  AcademicRecommendation,
+  StudyTask,
+  StudyPlannerSummary,
+  FacultyIntervention,
+  StudentPreference
 } from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
@@ -295,6 +300,76 @@ export const api = {
     return request<{ message: string; records_imported: number }>("/imports/commit", {
       method: "POST",
       body: JSON.stringify(rows)
+    });
+  },
+
+  // Academic Guidance
+  async getRecommendations(rollNo: string): Promise<AcademicRecommendation[]> {
+    return request<AcademicRecommendation[]>(`/guidance/${rollNo}`);
+  },
+
+  async updateRecommendationStatus(rollNo: string, recId: string, status: string): Promise<AcademicRecommendation> {
+    return request<AcademicRecommendation>(`/guidance/${rollNo}/${recId}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({ status })
+    });
+  },
+
+  // Smart Study Planner
+  async getStudyTasks(rollNo: string): Promise<StudyTask[]> {
+    return request<StudyTask[]>(`/planner/${rollNo}/tasks`);
+  },
+
+  async createStudyTask(rollNo: string, task: { title: string; course_code?: string; scheduled_date: string; allocated_hours: number; priority: string }): Promise<StudyTask> {
+    return request<StudyTask>(`/planner/${rollNo}/tasks`, {
+      method: "POST",
+      body: JSON.stringify(task)
+    });
+  },
+
+  async updateStudyTask(rollNo: string, taskId: number, task: Partial<StudyTask>): Promise<StudyTask> {
+    return request<StudyTask>(`/planner/${rollNo}/tasks/${taskId}`, {
+      method: "PATCH",
+      body: JSON.stringify(task)
+    });
+  },
+
+  async deleteStudyTask(rollNo: string, taskId: number): Promise<void> {
+    await request(`/planner/${rollNo}/tasks/${taskId}`, { method: "DELETE" });
+  },
+
+  async getStudyPlannerSummary(rollNo: string): Promise<StudyPlannerSummary> {
+    return request<StudyPlannerSummary>(`/planner/${rollNo}/summary`);
+  },
+
+  // Student Preferences
+  async getMyPreferences(): Promise<StudentPreference> {
+    return request<StudentPreference>("/preferences/me");
+  },
+
+  async updateMyPreferences(pref: Partial<StudentPreference>): Promise<StudentPreference> {
+    return request<StudentPreference>("/preferences/me", {
+      method: "PATCH",
+      body: JSON.stringify(pref)
+    });
+  },
+
+  // Faculty Interventions
+  async getFacultyInterventions(): Promise<FacultyIntervention[]> {
+    return request<FacultyIntervention[]>("/faculty/interventions");
+  },
+
+  async createFacultyIntervention(data: { student_roll_no: string; course_code: string; action_type: string; notes: string; follow_up_date?: string }): Promise<FacultyIntervention> {
+    return request<FacultyIntervention>("/faculty/interventions", {
+      method: "POST",
+      body: JSON.stringify(data)
+    });
+  },
+
+  async updateFacultyIntervention(id: number, data: { status?: string; notes?: string; follow_up_date?: string }): Promise<FacultyIntervention> {
+    return request<FacultyIntervention>(`/faculty/interventions/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data)
     });
   },
 

@@ -91,31 +91,37 @@ export default function LoginPage() {
         <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Hero & Portal Intro */}
           <div className="lg:col-span-6 space-y-5 text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-portal-950/80 border border-portal-800/60 text-portal-300 text-xs font-semibold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-950/80 border border-indigo-800/60 text-indigo-300 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Samvidha-Inspired Autonomous Academic Intelligence</span>
+              <span>AI-Powered Academic Performance Analysis & Guidance</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
-              Smart Academic <span className="text-portal-400">Intelligence Portal</span>
+              Samvidha<span className="text-indigo-400">Plus</span>
             </h2>
 
-            <p className="text-sm text-slate-300 leading-relaxed">
-              Empowering students and faculty with continuous internal evaluation,
-              attendance margins forecasting, degree progress analytics, and validated predictive insights.
+            <p className="text-base font-medium text-indigo-200/90 italic">
+              "Understand Your Performance. Predict Your Progress. Shape Your Future."
             </p>
 
-            {/* Feature Highlights */}
-            <div className="grid grid-cols-2 gap-3 pt-2">
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Transforming raw academic records into actionable intelligence with continuous CIE analysis,
+              Bayesian SGPA estimation with uncertainty bounds, attendance recovery pathways, and smart study planning.
+            </p>
+
+            {/* Three EDP Core Pillars */}
+            <div className="grid grid-cols-3 gap-2.5 pt-2">
               <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800/80">
-                <GraduationCap className="w-5 h-5 text-portal-400 mb-1.5" />
-                <h4 className="text-xs font-bold text-white">Samvidha Records</h4>
-                <p className="text-[11px] text-slate-400">CIE-I/II, AAT marks & 14-week laboratory evaluations.</p>
+                <div className="text-xs font-extrabold text-indigo-400 mb-1">1. UNDERSTAND</div>
+                <p className="text-[11px] text-slate-400">CIE marks, lab evaluations, attendance margins & degree audit.</p>
               </div>
               <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800/80">
-                <ShieldCheck className="w-5 h-5 text-emerald-400 mb-1.5" />
-                <h4 className="text-xs font-bold text-white">Performance Index</h4>
-                <p className="text-[11px] text-slate-400">Explainable multi-factor academic health scoring.</p>
+                <div className="text-xs font-extrabold text-sky-400 mb-1">2. PREDICT</div>
+                <p className="text-[11px] text-slate-400">Bounded Bayesian SGPA projection with verified error metrics.</p>
+              </div>
+              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800/80">
+                <div className="text-xs font-extrabold text-emerald-400 mb-1">3. IMPROVE</div>
+                <p className="text-[11px] text-slate-400">Personalized study planner, recovery plans & mentoring.</p>
               </div>
             </div>
 

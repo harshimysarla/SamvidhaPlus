@@ -181,6 +181,15 @@ export interface SGPAEstimate {
   methodology: string;
   limitations: string;
   disclaimer: string;
+  model_version?: string;
+  prediction_horizon?: string;
+  model_metrics?: {
+    mae: number;
+    rmse: number;
+    baseline_mae: number;
+  };
+  feature_importance?: Record<string, number>;
+  last_calibrated_date?: string;
 }
 
 export interface CGPAScenarioTrajectoryItem {
@@ -358,3 +367,77 @@ export interface DataImportSummary {
   preview_sample: DataImportPreviewRow[];
   can_import: boolean;
 }
+
+export interface AcademicRecommendation {
+  id: string;
+  category: "REVISION" | "ATTENDANCE" | "TIME_ALLOCATION" | "GOAL_SETTING" | "FACULTY_CONSULT";
+  title: string;
+  observation: string;
+  why_it_matters: string;
+  supporting_data: string;
+  recommended_action: string;
+  suggested_timeframe: string;
+  priority: "High" | "Medium" | "Low";
+  status: "Active" | "In Progress" | "Completed" | "Dismissed";
+}
+
+export interface StudyTask {
+  id: number;
+  title: string;
+  course_code?: string;
+  scheduled_date: string;
+  allocated_hours: number;
+  is_completed: boolean;
+  priority: string;
+  rescheduled_count: number;
+  created_at: string;
+}
+
+export interface WeeklyBreakdownItem {
+  date: string;
+  day_name: string;
+  task_count: number;
+  completed_count: number;
+  allocated_hours: number;
+}
+
+export interface SuggestedAllocationItem {
+  course_code: string;
+  course_name: string;
+  current_score: number;
+  suggested_hours_per_week: number;
+  priority: string;
+  recommended_focus: string;
+}
+
+export interface StudyPlannerSummary {
+  total_tasks: number;
+  completed_tasks: number;
+  completion_rate_pct: number;
+  study_streak_days: number;
+  total_allocated_hours: number;
+  weekly_breakdown: WeeklyBreakdownItem[];
+  suggested_allocations: SuggestedAllocationItem[];
+}
+
+export interface FacultyIntervention {
+  id: number;
+  student_roll_no: string;
+  student_name: string;
+  course_code: string;
+  course_name: string;
+  action_type: string;
+  notes: string;
+  follow_up_date?: string;
+  status: string;
+  created_at: string;
+}
+
+export interface StudentPreference {
+  email_alerts_enabled: boolean;
+  attendance_warning_threshold: number;
+  mentoring_visibility_consent: boolean;
+  ai_guidance_enabled: boolean;
+  dark_mode: boolean;
+}
+

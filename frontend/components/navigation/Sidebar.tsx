@@ -47,7 +47,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     { href: "/student/attendance", label: "Attendance & Margins", icon: UserCheck },
     { href: "/student/timetable", label: "Timetable & Calendar", icon: Calendar },
     { href: "/student/assignments", label: "Coursework & Tasks", icon: CheckSquare },
-    { href: "/student/planner", label: "Study Planner", icon: BookOpen },
+    { href: "/student/planner", label: "Smart Study Planner", icon: BookOpen },
     { href: "/student/reports", label: "Academic Reports", icon: FileText },
   ];
 
@@ -76,12 +76,12 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     >
       {/* Brand Header */}
       <div className="h-16 flex items-center px-5 border-b border-slate-800 bg-slate-950/60 gap-3">
-        <div className="w-9 h-9 rounded-lg bg-portal-600 flex items-center justify-center font-bold text-white shadow-md shadow-portal-600/30">
-          <School className="w-5 h-5" />
+        <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-600/30">
+          <Sparkles className="w-5 h-5 text-indigo-200" />
         </div>
         <div className="flex flex-col">
-          <span className="font-bold text-sm tracking-wide text-white">IARE SAMVIDHA</span>
-          <span className="text-[10px] uppercase font-semibold text-portal-400 tracking-wider">Smart Academic Portal</span>
+          <span className="font-bold text-sm tracking-wide text-white">SamvidhaPlus</span>
+          <span className="text-[10px] uppercase font-semibold text-indigo-400 tracking-wider">Academic Intelligence</span>
         </div>
       </div>
 
